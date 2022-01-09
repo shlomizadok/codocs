@@ -1,4 +1,17 @@
 import gql from 'graphql-tag';
+// Blocks gqls
+export const SUBMIT_BLOCK = gql`
+mutation SubmitBlock($input: BlockInput!) {
+  submitBlock(input: $input) {
+    _id
+    content
+    contentType
+    order
+    doc_id
+  }
+}
+`;
+
 // Docs gqls
 export const GET_DOC = gql`
   query GetDoc($id: ID!) {
@@ -14,6 +27,7 @@ export const GET_DOC = gql`
         order
         content
         contentType
+        doc_id
       }
     }
   }

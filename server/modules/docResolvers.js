@@ -47,7 +47,7 @@ const docResolvers = {
 			const { Docs, Spaces, Blocks } = await context()
 			const doc = await Docs.findOne(ObjectifyId(_args._id))
 			doc.space = await Spaces.findOne(doc.space_id);
-			doc.blocks = await Blocks.find({ doc_id: doc._id.toString() }).toArray();
+			doc.blocks = await Blocks.find({ doc_id: doc._id }).toArray();
 			return doc;
 		}
 	},

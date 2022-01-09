@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Col, Row, Input, Breadcrumb, BreadcrumbItem } from 'reactstrap';
+import { Container, Col, Row, Input, Breadcrumb, BreadcrumbItem, Button } from 'reactstrap';
 import SideMenu from '../menus/SideMenu';
 import { useQuery } from 'react-apollo';
 import client from '../../utils/apollo';
 import { GET_SPACES, GET_DOC, SUBMIT_DOC } from '../../utils/gql';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
+import TextBlock from '../Blocks/TextBlock';
 
 function useDoc(props) {
   const urlParams = useParams();
@@ -22,10 +21,11 @@ class Doc extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      doc: props.doc
+      doc: props.doc,
+      addNewTextField: false
     }
-    this.changeDoc = this.changeDoc.bind(this)
-    this.changeDocContent = this.changeDocContent.bind(this)
+    this.changeDocTitle = this.changeDocTitle.bind(this);
+    this.resetNewTextField = this.resetNewTextField.bind(this);
   }
 
   prepDocForSaving() {
@@ -38,7 +38,7 @@ class Doc extends Component {
     return input
   }
 
-  changeDoc(event) {
+  changeDocTitle(event) {
     const { doc } = this.state;
     doc.title = event.target.value;
     this.setState({ doc });
@@ -57,28 +57,19 @@ class Doc extends Component {
     }, 2000)
   }
 
-  changeDocContent(event) {
-    return console.log("GGGGGG", event)
-    const { doc } = this.state;
-    doc.title = event.target.value;
-    this.setState({ doc });
-    const input = this.prepDocForSaving()
-    // Need to think of ways to delay here, so won't be sending a lot for traffic on each key stroke.
-    setTimeout(async () => {
-      const res = await client.mutate({
-        variables: { input },
-        mutation: SUBMIT_DOC,
-        refetchQueries: () => [
-          { query: GET_DOC, variables: { id: doc._id } },
-          { query: GET_SPACES }
-        ],
-      });
-      console.log("ressss", res);
-    }, 2000)
+  resetNewTextField() {
+    this.setState({ addNewTextField: false })
   }
 
   render() {
-    const { doc } = this.state;
+    const { doc, addNewTextField } = this.state;
+    const emptyBlock = {
+      content: "",
+      contentType: "text",
+      doc_id: doc._id,
+      order: doc.blocks.length,
+      _id: null
+    }
     return (
       <Container fluid>
         <Row>
@@ -90,18 +81,25 @@ class Doc extends Component {
             </Breadcrumb>
             <Input
               value={doc.title}
-              onChange={this.changeDoc}
+              onChange={this.changeDocTitle}
             />
-            {doc.blocks.map((block) => {      
-              // Handle different block types (if text... if image... if code, etc.)      
-              return (
-                <ReactQuill
-                  key={block._id} 
-                  value={block.content} 
-                  onChange={this.changeDocContent} 
-                />
-              )
+            {doc.blocks.map((block) => {
+              // Handle different block types (if text... if image... if code, etc.)
+              if (block.contentType === "text") {
+                return (
+                  <TextBlock {...block} key={block._id} />
+                )
+              }
             })}
+            {(doc.blocks.length === 0) && (
+              <TextBlock {...emptyBlock} />
+            )}
+            {(addNewTextField) && (
+              <TextBlock {...emptyBlock} reset={this.resetNewTextField}/>
+            )}
+            <p>
+              <Button onClick={() => (this.setState({addNewTextField: true}))}/>
+            </p>
           </Col>
         </Row>
       </Container>
