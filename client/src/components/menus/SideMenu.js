@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Button, Col, Nav, NavItem } from 'reactstrap';
 import SpacesList from './SpacesList';
-import AddSpace from '../components/Space/AddSpace';
+import AddSpace from '../Space/AddSpace';
 
 class SideMenu extends Component {
   state = {

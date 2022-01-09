@@ -11,7 +11,7 @@ import {
 } from 'reactstrap';
 import { Form as FinalForm, Field } from 'react-final-form';
 import { GET_SPACES, SUBMIT_SPACE } from '../../utils/gql'
-import client from '../../apollo';
+import client from '../../utils/apollo';
 
 const AddSpace = ({ post, onClose }) => (
   <FinalForm

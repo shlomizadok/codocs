@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import client from '../../apollo';
+import client from '../../utils/apollo';
 const refreshTokenSetup = (res) => {
 	// Timing to renew access token
 	let refreshTiming = (res.tokenObj.expires_in || 3600 * 60) * 1000;
@@ -18,14 +18,6 @@ const refreshTokenSetup = (res) => {
 };
 
 const createOrUpdateUser = async (userData) => {
-	/*
-		_id: ID
-		externalId: String
-		externalProvider: String
-		name: String
-		email: String
-		picture: String
-	*/
 	const input = {
 		externalId: userData.googleId,
 		externalProvider: "Google",

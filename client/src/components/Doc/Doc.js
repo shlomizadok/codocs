@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Col, Row, Input, Breadcrumb, BreadcrumbItem } from 'reactstrap';
-import SideMenu from '../../utils/SideMenu';
+import SideMenu from '../menus/SideMenu';
 import { useQuery } from 'react-apollo';
-import client from '../../apollo';
+import client from '../../utils/apollo';
 import { GET_SPACES, GET_DOC, SUBMIT_DOC } from '../../utils/gql';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';

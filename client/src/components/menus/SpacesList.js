@@ -1,7 +1,7 @@
 import React from 'react';
 import { Query } from 'react-apollo';
 import { Nav, NavItem, NavLink } from 'reactstrap';
-import { GET_SPACES } from './gql';
+import { GET_SPACES } from '../../utils/gql';
 import SpaceLink from './SpaceLink';
 import { useParams }  from 'react-router-dom';
 

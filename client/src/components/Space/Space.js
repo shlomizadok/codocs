@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Col, Row, Breadcrumb, BreadcrumbItem, Input } from 'reactstrap';
-import SideMenu from '../../utils/SideMenu';
+import SideMenu from '../menus/SideMenu';
 import { useQuery } from 'react-apollo';
 import { GET_SPACE, SUBMIT_SPACE, GET_SPACES } from '../../utils/gql';
-import client from '../../apollo';
+import client from '../../utils/apollo';
 
 function useSpace(props) {
   const urlParams = useParams();

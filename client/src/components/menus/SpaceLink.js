@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { NavLink } from 'reactstrap';
 import { GoPlus } from 'react-icons/go';
-import client from '../apollo';
-import { SUBMIT_DOC } from './gql';
+import client from '../../utils/apollo';
+import { SUBMIT_DOC } from '../../utils/gql';
 
 const createDoc = async (space) => {
   const input = { title: "Untitled", space_id: space._id }

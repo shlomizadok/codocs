@@ -8,7 +8,7 @@ const context = async () => {
 		})
 
 		await dbClient.connect()
-		db = dbClient.db('near') // database name
+		db = dbClient.db(process.env.MONGODB_DB_NAME) // database name
 		return { Spaces: db.collection('spaces'), Docs: db.collection('docs') }
 	} catch (e) {
 		console.log('--->error while connecting via graphql context (db)', e)

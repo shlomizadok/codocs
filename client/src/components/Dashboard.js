@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Container, Col, Row } from 'reactstrap';
-import SideMenu from '../utils/SideMenu';
+import SideMenu from './menus/SideMenu';
 
 class Dashboard extends Component {
   render() {

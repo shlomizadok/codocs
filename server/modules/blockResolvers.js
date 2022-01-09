@@ -8,7 +8,7 @@ const context = async () => {
 		})
 
 		await dbClient.connect()
-		db = dbClient.db('near') // database name
+		db = dbClient.db(process.env.MONGODB_DB_NAME) // database name
 		return {
 			Docs: db.collection('docs'),
 			Spaces: db.collection('spaces'),
