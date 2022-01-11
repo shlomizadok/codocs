@@ -9,7 +9,13 @@ import TextBlock from '../Blocks/TextBlock';
 
 function useDoc(props) {
   const urlParams = useParams();
-  const { loading, error, data } = useQuery(GET_DOC, { variables: { id: urlParams.id } })
+  const { loading, error, data } = useQuery(
+    GET_DOC, 
+    { 
+      variables: { id: urlParams.id },
+      pollInterval: 5000,
+    },
+  )
   if (!loading)
     return <Doc {...urlParams} {...data} />
 
@@ -53,12 +59,14 @@ class Doc extends Component {
           { query: GET_SPACES }
         ],
       });
-      console.log("ressss", res);
     }, 2000)
   }
 
   resetNewTextField() {
-    this.setState({ addNewTextField: false })
+    console.log("I've been summoned")
+    const {doc} = this.state
+    
+    // this.setState({ addNewTextField: false })
   }
 
   render() {
@@ -98,7 +106,7 @@ class Doc extends Component {
               <TextBlock {...emptyBlock} reset={this.resetNewTextField}/>
             )}
             <p>
-              <Button onClick={() => (this.setState({addNewTextField: true}))}/>
+              <Button onClick={() => (this.setState({addNewTextField: !this.state.addNewTextField}))}/>
             </p>
           </Col>
         </Row>

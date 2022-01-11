@@ -36,7 +36,7 @@ class TextBlock extends Component {
     clearTimeout(this.timer);
     const newInput = this.state.input;
     newInput.content = newContent;
-    this.setState({ saving: SavingState.NOT_SAVED, input: newInput })
+    this.setState({ saving: SavingState.NOT_SAVED, input: newInput }) 
     this.timer = setTimeout(async() => { // Autosaving
       this.setState({ saving: SavingState.SAVING })
       await client.mutate({
@@ -50,6 +50,7 @@ class TextBlock extends Component {
         if (res) {
           delete res.data.submitBlock.__typename;
           this.setState({ input: res.data.submitBlock });
+          if (this.props.reset) this.props.reset()
         }  
       });
     }, 2000);
@@ -64,7 +65,7 @@ class TextBlock extends Component {
           value={content}
           onChange={this.changeBlockContent}
         />
-        {/* <AutoSaveDisplay saving={this.state.saving} /> */}
+        <AutoSaveDisplay saving={this.state.saving} />
       </>
     )
   }
