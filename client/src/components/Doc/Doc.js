@@ -9,8 +9,7 @@ import TextBlock from '../Blocks/TextBlock';
 
 function useDoc(props) {
   const urlParams = useParams();
-  const { loading, error, data } = useQuery(
-    GET_DOC, 
+  const { loading, error, data } = useQuery(GET_DOC, 
     { 
       variables: { id: urlParams.id },
       pollInterval: 5000,
@@ -19,7 +18,8 @@ function useDoc(props) {
   if (!loading)
     return <Doc {...urlParams} {...data} />
 
-  return <>~Error loading?</>
+  if (error) return <>~Error</>
+  return <>loading?</>
 }
 
 class Doc extends Component {
@@ -62,11 +62,17 @@ class Doc extends Component {
     }, 2000)
   }
 
-  resetNewTextField() {
-    console.log("I've been summoned")
+  resetNewTextField(newBlock) {
+    console.log("I've been summoned", newBlock)
     const {doc} = this.state
-    
-    // this.setState({ addNewTextField: false })
+    if (!doc.blocks.includes(newBlock)) doc.blocks.push(newBlock)
+    this.setState({ addNewTextField: false })
+  }
+  componentDidUpdate() {
+    const {doc} = this.state
+    console.log("Saved blocks", doc.blocks.length)
+
+
   }
 
   render() {
@@ -106,7 +112,12 @@ class Doc extends Component {
               <TextBlock {...emptyBlock} reset={this.resetNewTextField}/>
             )}
             <p>
-              <Button onClick={() => (this.setState({addNewTextField: !this.state.addNewTextField}))}/>
+              <Button
+                onClick={() => (this.setState({addNewTextField: true}))}
+                color='secondary'
+              >
+                Add text
+              </Button>  
             </p>
           </Col>
         </Row>

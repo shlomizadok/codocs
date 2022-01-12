@@ -25,7 +25,6 @@ const ObjectifyId = (id) => {
 
 const prepareBlockForSaving = (args) => {
   let block = {};
-	console.log("aaaaaa", args)
 	const { content, contentType, order } = args;
 	const doc_id = ObjectifyId(args.doc_id);
 	block.contentType = contentType;
@@ -58,7 +57,6 @@ const blockResolvers = {
 			}
 
 			if (args.input._id) {
-				console.log("Dsddddd", args)
 				const res = await Blocks.updateOne(
 					{ _id: ObjectifyId(args.input._id) },
 					{
@@ -67,7 +65,6 @@ const blockResolvers = {
 						}
 					}
 				)
-				console.log(res)
 				return blockResponse(Blocks, Docs, args.input._id);
 			}
       const block = prepareBlockForSaving(args.input)

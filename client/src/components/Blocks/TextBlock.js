@@ -50,7 +50,7 @@ class TextBlock extends Component {
         if (res) {
           delete res.data.submitBlock.__typename;
           this.setState({ input: res.data.submitBlock });
-          if (this.props.reset) this.props.reset()
+          if (this.props.reset) this.props.reset(res.data.submitBlock)
         }  
       });
     }, 2000);
