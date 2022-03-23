@@ -6,6 +6,7 @@ const dbClient = new MongoClient(process.env.MONGODB_URI, {
 })
 
 dbClient.connect()
+
 db = dbClient.db(process.env.MONGODB_DB_NAME) // database name
 
 const collections = ["users", "spaces", "docs", "blocks", "comments"]
@@ -13,7 +14,7 @@ const collections = ["users", "spaces", "docs", "blocks", "comments"]
 collections.map((collection) => {
   db.createCollection(collection, (err, res) => {
     if (err) console.log("error:", err);
-    console.log("Collection created:", collection);
+    console.log("Collection created:", collection, res);
   })
 })
 process.exit();

@@ -8,3 +8,8 @@
 .nav-link:hover, .nav-link.active {
   color: #2c2c2c;
 }
+
+.excalidraw-wrapper {
+  height: 800px;
+  margin: 50px;
+}

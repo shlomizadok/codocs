@@ -6,6 +6,7 @@ import { useQuery } from 'react-apollo';
 import client from '../../utils/apollo';
 import { GET_SPACES, GET_DOC, SUBMIT_DOC } from '../../utils/gql';
 import TextBlock from '../Blocks/TextBlock';
+import DrawBlock from '../Blocks/DrawBlock';
 
 function useDoc(props) {
   const urlParams = useParams();
@@ -28,10 +29,11 @@ class Doc extends Component {
     super(props)
     this.state = {
       doc: props.doc,
-      addNewTextField: false
+      addNewTextBlock: false,
+      addNewDrawBlock: false,
     }
     this.changeDocTitle = this.changeDocTitle.bind(this);
-    this.resetNewTextField = this.resetNewTextField.bind(this);
+    this.resetNewTextBlock = this.resetNewTextBlock.bind(this);
   }
 
   prepDocForSaving() {
@@ -62,21 +64,15 @@ class Doc extends Component {
     }, 2000)
   }
 
-  resetNewTextField(newBlock) {
+  resetNewTextBlock(newBlock) {
     console.log("I've been summoned", newBlock)
     const {doc} = this.state
     if (!doc.blocks.includes(newBlock)) doc.blocks.push(newBlock)
-    this.setState({ addNewTextField: false })
-  }
-  componentDidUpdate() {
-    const {doc} = this.state
-    console.log("Saved blocks", doc.blocks.length)
-
-
+    this.setState({ addNewTextBlock: false })
   }
 
   render() {
-    const { doc, addNewTextField } = this.state;
+    const { doc, addNewTextBlock, addNewDrawBlock } = this.state;
     const emptyBlock = {
       content: "",
       contentType: "text",
@@ -84,6 +80,16 @@ class Doc extends Component {
       order: doc.blocks.length,
       _id: null
     }
+
+    const emptyDrawBlock = {
+      content: null,
+      contentType: "draw",
+      drawElements: [],
+      doc_id: doc._id,
+      order: doc.blocks.length,
+      _id: null
+    }
+
     return (
       <Container fluid>
         <Row>
@@ -108,15 +114,26 @@ class Doc extends Component {
             {(doc.blocks.length === 0) && (
               <TextBlock {...emptyBlock} />
             )}
-            {(addNewTextField) && (
-              <TextBlock {...emptyBlock} reset={this.resetNewTextField}/>
+            {(addNewTextBlock) && (
+              <TextBlock {...emptyBlock} reset={this.resetNewTextBlock}/>
+            )}
+            {(addNewDrawBlock) && (
+              <DrawBlock
+                {...emptyDrawBlock}
+              />
             )}
             <p>
               <Button
-                onClick={() => (this.setState({addNewTextField: true}))}
+                onClick={() => (this.setState({addNewTextBlock: true}))}
                 color='secondary'
               >
                 Add text
+              </Button>  
+              <Button
+                onClick={() => (this.setState({addNewDrawBlock: !this.state.addNewDrawBlock}))}
+                color='secondary'
+              >
+                Add draw
               </Button>  
             </p>
           </Col>
@@ -124,7 +141,6 @@ class Doc extends Component {
       </Container>
     );
   }
-
 }
 
 export default useDoc;

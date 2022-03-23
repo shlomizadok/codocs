@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { GET_DOC, SUBMIT_BLOCK } from '../../utils/gql';
-
 import client from '../../utils/apollo';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
